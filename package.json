@@ -19,5 +19,6 @@
   "dependencies": {
     "commander": "^12.1.0",
     "make": "^0.0.0"
-  }
+  },
+  "type": "module"
 }
