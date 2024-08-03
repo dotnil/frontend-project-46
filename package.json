@@ -1,0 +1,24 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "[![Actions Status](https://github.com/dotnil/frontend-project-46/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/dotnil/frontend-project-46/actions)",
+  "main": "gendiff.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dotnil/frontend-project-46.git"
+  },
+  "author": "dotnil",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dotnil/frontend-project-46/issues"
+  },
+  "homepage": "https://github.com/dotnil/frontend-project-46#readme",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "make": "^0.0.0"
+  },
+  "type": "module"
+}
