@@ -11,16 +11,16 @@ const renderLines = (keys, object1, object2) => {
     const value1 = object1[key];
     const value2 = object2[key];
     if (isNotChanged(value1, value2)) {
-      return `     ${key}: ${value1}`
+      return `    ${key}: ${value1}`
     }
     if (isDeleted(value2)) {
-      return `   - ${key}: ${value1}`
+      return `  - ${key}: ${value1}`
     }
     if (isAdded(value1)) {
-      return `   + ${key}: ${value2}`
+      return `  + ${key}: ${value2}`
     }
 
-    return `   - ${key}: ${value1}\n   + ${key}: ${value2}`
+    return `  - ${key}: ${value1}\n  + ${key}: ${value2}`
   }).join('\n')
 
   return `{\n${lines}\n}`
@@ -32,8 +32,7 @@ const getSortedUniqueKeys = (object1, object2) => {
 
 const isNotChanged = (value1, value2) => value1 === value2;
 const isDeleted = (value2) => value2 === undefined;
-const isAdded = (value1) =>  value1 === undefined;
-
+const isAdded = (value1) => value1 === undefined;
 
 program
   .description(`Compares two configuration files and shows a difference.`)
