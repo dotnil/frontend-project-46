@@ -43,7 +43,7 @@ program
   .version('0.0.1', '-V, --version', 'output the version number')
   .argument('<filepath1>')
   .argument('<filepath2>')
-  .action((filepath1, filepath2, _options) => {
+  .action((filepath1, filepath2) => {
     const object1 = readFile(filepath1);
     const object2 = readFile(filepath2);
 
