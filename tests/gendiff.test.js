@@ -11,7 +11,7 @@ describe('gendiff CLI with real files', () => {
     const filepath1 = path.join(__dirname, '../__fixtures__/file1.json');
     const filepath2 = path.join(__dirname, '../__fixtures__/file2.json');
 
-    const command = `node ./gendiff.js ${filepath1} ${filepath2}`;
+    const command = `node ./src/gendiff.js ${filepath1} ${filepath2}`;
 
     exec(command, (error, stdout, stderr) => {
       if (error) {
