@@ -1,5 +1,4 @@
 {
-  "timeout": 20,
-  "verbose": true,
-  "host": "hexlet.io"
+  "setting6": "pepes",
+  "group3": 100500
 }
