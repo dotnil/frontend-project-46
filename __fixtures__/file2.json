@@ -1,5 +1,8 @@
 {
-  "timeout": 20,
-  "verbose": true,
-  "host": "hexlet.io"
+  "setting6": {
+    "keys": "hruk",
+    "ops": "vops"
+  },
+  "group2": 12345,
+  "group3": 100500
 }

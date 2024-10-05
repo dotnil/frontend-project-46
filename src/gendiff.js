@@ -1,5 +1,6 @@
 import { program } from 'commander';
-import readFile from './parser.js';
+import readFile from './parsers.js';
+import displayDiff from './stylish.js';
 
 const getSortedUniqueKeys = (object1, object2) => {
   const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)]);
@@ -11,32 +12,38 @@ const isNotChanged = (value1, value2) => value1 === value2;
 const isDeleted = (value2) => value2 === undefined;
 const isAdded = (value1) => value1 === undefined;
 
-const renderLine = (key, object1, object2) => {
-  const value1 = object1[key];
-  const value2 = object2[key];
-  if (isNotChanged(value1, value2)) {
-    return `    ${key}: ${value1}`;
-  }
-  if (isDeleted(value2)) {
-    return `  - ${key}: ${value1}`;
-  }
-  if (isAdded(value1)) {
-    return `  + ${key}: ${value2}`;
-  }
-
-  return `  - ${key}: ${value1}\n  + ${key}: ${value2}`;
-};
-
-const renderLines = (keys, object1, object2) => {
-  const lines = keys.map((key) => renderLine(key, object1, object2)).join('\n');
-
-  return `{\n${lines}\n}`;
+const formatKeyChange = (key, operation, value) => {
+  return { [key]: { operation, value } };
 };
 
 const compareFlatFiles = (object1, object2) => {
   const keys = getSortedUniqueKeys(object1, object2);
+  const result = [];
 
-  return renderLines(keys, object1, object2);
+  keys.forEach((key) => {
+    const value1 = object1[key];
+    const value2 = object2[key];
+
+    if (typeof value1 === 'object' && typeof value2 === 'object') {
+      const diff = compareFlatFiles(value1, value2);
+      return result.push(formatKeyChange(key, '=', diff));
+    }
+
+    if (isNotChanged(value1, value2)) {
+      return result.push(formatKeyChange(key, '=', value1));
+    }
+
+    if (isDeleted(value2)) {
+      result.push(formatKeyChange(key, '-', value1));
+    } else if (isAdded(value1)) {
+      result.push(formatKeyChange(key, '+', value2));
+    } else {
+      result.push(formatKeyChange(key, '-', value1));
+      result.push(formatKeyChange(key, '+', value2));
+    }
+  });
+
+  return result;
 };
 
 program
@@ -49,7 +56,10 @@ program
     const object1 = readFile(filepath1);
     const object2 = readFile(filepath2);
 
-    console.log(compareFlatFiles(object1, object2));
+    const diff = compareFlatFiles(object1, object2);
+
+    console.log(JSON.stringify(diff, null, 2));
+    console.log(displayDiff(diff));
   })
   .option('-f, --format [type]', 'output format');
 
