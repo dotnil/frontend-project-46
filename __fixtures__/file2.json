@@ -1,4 +1,8 @@
 {
-  "setting6": "pepes",
+  "setting6": {
+    "keys": "hruk",
+    "ops": "vops"
+  },
+  "group2": 12345,
   "group3": 100500
 }

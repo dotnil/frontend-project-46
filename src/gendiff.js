@@ -1,6 +1,6 @@
 import { program } from 'commander';
 import readFile from './parsers.js';
-import formatDiff from './stylish.js';
+import displayDiff from './stylish.js';
 
 const getSortedUniqueKeys = (object1, object2) => {
   const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)]);
@@ -24,9 +24,15 @@ const compareFlatFiles = (object1, object2) => {
     const value1 = object1[key];
     const value2 = object2[key];
 
-    if (isNotChanged(value1, value2)) {
-      return;
+    if (typeof value1 === 'object' && typeof value2 === 'object') {
+      const diff = compareFlatFiles(value1, value2);
+      return result.push(formatKeyChange(key, '=', diff));
     }
+
+    if (isNotChanged(value1, value2)) {
+      return result.push(formatKeyChange(key, '=', value1));
+    }
+
     if (isDeleted(value2)) {
       result.push(formatKeyChange(key, '-', value1));
     } else if (isAdded(value1)) {
@@ -53,7 +59,7 @@ program
     const diff = compareFlatFiles(object1, object2);
 
     console.log(JSON.stringify(diff, null, 2));
-    console.log(formatDiff(diff));
+    console.log(displayDiff(diff));
   })
   .option('-f, --format [type]', 'output format');
 
