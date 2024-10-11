@@ -1,6 +1,6 @@
 import { program } from 'commander';
 import readFile from './parsers.js';
-import displayDiff from './stylish.js';
+import formatDiff from './stylish.js';
 
 const getSortedUniqueKeys = (object1, object2) => {
   const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)]);
@@ -12,9 +12,7 @@ const isNotChanged = (value1, value2) => value1 === value2;
 const isDeleted = (value2) => value2 === undefined;
 const isAdded = (value1) => value1 === undefined;
 
-const formatKeyChange = (key, operation, value) => {
-  return { [key]: { operation, value } };
-};
+const formatKeyChange = (key, operation, value) => ({ [key]: { operation, value } });
 
 const compareFlatFiles = (object1, object2) => {
   const keys = getSortedUniqueKeys(object1, object2);
@@ -24,16 +22,12 @@ const compareFlatFiles = (object1, object2) => {
     const value1 = object1[key];
     const value2 = object2[key];
 
-    if (typeof value1 === 'object' && typeof value2 === 'object') {
+    if (typeof value1 === 'object' && value1 !== null && typeof value2 === 'object' && value2 !== null) {
       const diff = compareFlatFiles(value1, value2);
-      return result.push(formatKeyChange(key, '=', diff));
-    }
-
-    if (isNotChanged(value1, value2)) {
-      return result.push(formatKeyChange(key, '=', value1));
-    }
-
-    if (isDeleted(value2)) {
+      result.push(formatKeyChange(key, '=', diff));
+    } else if (isNotChanged(value1, value2)) {
+      result.push(formatKeyChange(key, '=', value1));
+    } else if (isDeleted(value2)) {
       result.push(formatKeyChange(key, '-', value1));
     } else if (isAdded(value1)) {
       result.push(formatKeyChange(key, '+', value2));
@@ -59,7 +53,7 @@ program
     const diff = compareFlatFiles(object1, object2);
 
     console.log(JSON.stringify(diff, null, 2));
-    console.log(displayDiff(diff));
+    console.log(formatDiff(diff));
   })
   .option('-f, --format [type]', 'output format');
 

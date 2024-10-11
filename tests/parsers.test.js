@@ -7,11 +7,34 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 describe('gendiff CLI with real files', () => {
-  test('test 42', () => {
+  test('should read the content of file1.json correctly', () => {
     const filepath = path.join(__dirname, '../__fixtures__/file1.json');
 
     expect(readFile(filepath)).toStrictEqual({
-      follow: false, host: 'hexlet.io', proxy: '123.234.53.22', timeout: 50,
+      common: {
+        setting1: 'Value 1',
+        setting2: 200,
+        setting3: true,
+        setting6: {
+          key: 'value',
+          doge: {
+            wow: '',
+          },
+        },
+      },
+      group1: {
+        baz: 'bas',
+        foo: 'bar',
+        nest: {
+          key: 'value',
+        },
+      },
+      group2: {
+        abc: 12345,
+        deep: {
+          id: 45,
+        },
+      },
     });
   });
 });
