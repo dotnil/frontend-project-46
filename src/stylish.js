@@ -11,22 +11,20 @@ const display = (value, level = 0) => {
   return `{\n${entries}\n${indent(level)}}`;
 };
 
-function displayDiff(diff, level = 0) {
-  return `{\n${diff.map((item) => formatDiffItem(item, level)).join('\n')}\n${indent(level)}}`;
+function stylish(diff, level = 0) {
+  return `{\n${diff.map((item) => {
+    const [key, value] = Object.entries(item)[0];
+    const { operation, value: val } = value;
+    const indentedKey = `${indent(level + 1)}${operation !== '=' ? `${operation} ` : '  '}${key}:`;
+
+    if (operation === '=') {
+      return Array.isArray(val)
+        ? `${indentedKey} ${stylish(val, level + 2)}`
+        : `${indentedKey} ${display(val, level)}`;
+    }
+
+    return `${indentedKey} ${display(val, level + 2)}`;
+  }).join('\n')}\n${indent(level)}}`;
 }
 
-function formatDiffItem(item, level) {
-  const [key, value] = Object.entries(item)[0];
-  const { operation, value: val } = value;
-  const indentedKey = `${indent(level + 1)}${operation !== '=' ? operation + ' ' : '  '}${key}:`;
-
-  if (operation === '=') {
-    return Array.isArray(val)
-      ? `${indentedKey} ${displayDiff(val, level + 2)}`
-      : `${indentedKey} ${display(val, level)}`;
-  }
-
-  return `${indentedKey} ${display(val, level + 2)}`;
-}
-
-export default displayDiff;
+export default stylish;

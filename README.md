@@ -4,3 +4,6 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/e560397a047cc7672178/test_coverage)](https://codeclimate.com/github/dotnil/frontend-project-46/test_coverage)
 
 [![asciicast](https://asciinema.org/a/CN6fDs1oPWIKeVnuoh8FMfh8Y.svg)](https://asciinema.org/a/CN6fDs1oPWIKeVnuoh8FMfh8Y)
+
+stylish formatter output
+[![asciicast](https://asciinema.org/a/JGkiGeWvF9kd95gEj2zNRIKpF.svg)](https://asciinema.org/a/JGkiGeWvF9kd95gEj2zNRIKpF)
