@@ -11,7 +11,7 @@ const readFile = (filepath) => {
   const content = fs.readFileSync(filepath, 'utf8');
 
   if (format === 'json') return JSON.parse(content);
-  if (format === 'yml') return yaml.load(content);
+  if (format === 'yml' || format === 'yaml') return yaml.load(content);
   throw new Error('Unsupported file format or invalid data');
 };
 
