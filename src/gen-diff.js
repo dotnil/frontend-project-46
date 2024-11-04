@@ -10,7 +10,7 @@ const isAdded = (value1) => value1 === undefined;
 
 const formatKeyChange = (key, operation, value) => ({ [key]: { operation, value } });
 
-const compareFlatFiles = (object1, object2) => {
+const genDiff = (object1, object2) => {
   const keys = getSortedUniqueKeys(object1, object2);
   const result = [];
 
@@ -19,7 +19,7 @@ const compareFlatFiles = (object1, object2) => {
     const value2 = object2[key];
 
     if (typeof value1 === 'object' && value1 !== null && typeof value2 === 'object' && value2 !== null) {
-      const diff = compareFlatFiles(value1, value2);
+      const diff = genDiff(value1, value2);
       result.push(formatKeyChange(key, '=', diff));
     } else if (isNotChanged(value1, value2)) {
       result.push(formatKeyChange(key, '=', value1));
@@ -36,4 +36,4 @@ const compareFlatFiles = (object1, object2) => {
   return result;
 };
 
-export default compareFlatFiles;
+export default genDiff;
