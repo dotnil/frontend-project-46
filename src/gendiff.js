@@ -15,7 +15,7 @@ program
     const object2 = readFile(filepath2);
 
     const diff = genDiff(object1, object2);
-    // console.log(JSON.stringify(diff, null, 2));
+
     console.log(formatDiff(diff, options.format));
   });
 
