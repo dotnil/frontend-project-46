@@ -1,13 +1,13 @@
 import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import compareFlatFiles from '../src/compare-flat-files.js';
+import genDiff from '../src/gen-diff.js';
 import readFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-describe('compareFlatFiles', () => {
+describe('genDiff', () => {
   test('should output correct diff for given file paths', () => {
     const filepath1 = path.join(__dirname, '../__fixtures__/file1-short.json');
     const filepath2 = path.join(__dirname, '../__fixtures__/file2-short.json');
@@ -57,6 +57,6 @@ describe('compareFlatFiles', () => {
       },
     ];
 
-    expect(compareFlatFiles(object1, object2)).toEqual(expected);
+    expect(genDiff(object1, object2)).toEqual(expected);
   });
 });

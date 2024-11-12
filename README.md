@@ -7,3 +7,6 @@
 
 stylish formatter output
 [![asciicast](https://asciinema.org/a/JGkiGeWvF9kd95gEj2zNRIKpF.svg)](https://asciinema.org/a/JGkiGeWvF9kd95gEj2zNRIKpF)
+
+plain formatter output
+[![asciicast](https://asciinema.org/a/Mvpzpy1xM2dhaAZPfDFLFP0Ob.svg)](https://asciinema.org/a/Mvpzpy1xM2dhaAZPfDFLFP0Ob)

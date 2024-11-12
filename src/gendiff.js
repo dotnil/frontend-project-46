@@ -1,17 +1,7 @@
 import { program } from 'commander';
 import readFile from './parsers.js';
-import stylish from './stylish.js';
-import compareFlatFiles from './compare-flat-files.js';
-
-const formatters = {
-  stylish,
-  // другие форматтеры
-};
-
-const formatDiffWithDefault = (diff, format = 'stylish') => {
-  const formatter = formatters[format] || stylish;
-  return formatter(diff);
-};
+import formatDiff from '../formatters/index.js';
+import genDiff from './gen-diff.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
@@ -24,11 +14,11 @@ program
     const object1 = readFile(filepath1);
     const object2 = readFile(filepath2);
 
-    const diff = compareFlatFiles(object1, object2);
+    const diff = genDiff(object1, object2);
     // console.log(JSON.stringify(diff, null, 2));
-    console.log(formatDiffWithDefault(diff, options.format));
+    console.log(formatDiff(diff, options.format));
   });
 
 program.parse();
 
-export default compareFlatFiles;
+export default genDiff;
