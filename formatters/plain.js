@@ -1,48 +1,50 @@
-const isObject = (value) => typeof value === 'object' && value !== null;
+const isComplexValue = (value) => typeof value === 'object' && value !== null;
 
-const formatValue = (value) => {
-  if (isObject(value)) return '[complex value]';
+const formatPropertyValue = (value) => {
+  if (isComplexValue(value)) return '[complex value]';
   if (typeof value === 'string') return `'${value}'`;
   return String(value);
 };
 
-const getPropertyPath = (path, key) => (path ? `${path}.${key}` : key);
+const buildPropertyPath = (path, key) => (path ? `${path}.${key}` : key);
 
-const getOperationMessage = (propertyPath, operation, value, prevValue) => {
-  switch (operation) {
-    case 'updated':
-      return `Property '${propertyPath}' was updated. From ${formatValue(prevValue)} to ${formatValue(value)}`;
-    case 'added':
-      return `Property '${propertyPath}' was added with value: ${formatValue(value)}`;
-    case 'removed':
-      return `Property '${propertyPath}' was removed`;
-    default:
-      return null;
-  }
+const generateChangeMessage = (fullPath, operation, value, prevValue) => {
+  const operations = {
+    updated: () => `Property '${fullPath}' was updated. From ${formatPropertyValue(prevValue)} to ${formatPropertyValue(value)}`,
+    added: () => `Property '${fullPath}' was added with value: ${formatPropertyValue(value)}`,
+    removed: () => `Property '${fullPath}' was removed`,
+  };
+
+  return operations[operation]?.() || null;
 };
 
 function plain(diff, path = '') {
-  return diff.flatMap((item, index) => {
-    const [key, { operation, value }] = Object.entries(item)[0];
-    const propertyPath = getPropertyPath(path, key);
-    const prevOperation = diff[index - 1]?.[key]?.operation;
-    const nextOperation = diff[index + 1]?.[key]?.operation;
+  return diff
+    .flatMap((item, index, array) => {
+      const [key, { operation, value }] = Object.entries(item)[0];
+      const fullPath = buildPropertyPath(path, key);
 
-    let message = null;
+      const previousOperation = array[index - 1]?.[key]?.operation;
+      const followingOperation = array[index + 1]?.[key]?.operation;
 
-    if (operation === '+' && prevOperation === '-') {
-      message = getOperationMessage(propertyPath, 'updated', value, diff[index - 1][key].value);
-    } else if (operation === '+' && prevOperation !== '-') {
-      message = getOperationMessage(propertyPath, 'added', value);
-    } else if (operation === '-' && nextOperation !== '+') {
-      message = getOperationMessage(propertyPath, 'removed');
-    } else if (operation === '=' && Array.isArray(value)) {
-      message = plain(value, propertyPath);
-    }
+      if (operation === '+' && previousOperation === '-') {
+        return generateChangeMessage(fullPath, 'updated', value, array[index - 1][key].value);
+      }
 
-    return message;
-  })
-    .filter(Boolean)
+      if (operation === '+' && previousOperation !== '-') {
+        return generateChangeMessage(fullPath, 'added', value);
+      }
+
+      if (operation === '-' && followingOperation !== '+') {
+        return generateChangeMessage(fullPath, 'removed');
+      }
+
+      if (operation === '=' && Array.isArray(value)) {
+        return plain(value, fullPath);
+      }
+
+      return [];
+    })
     .join('\n');
 }
 
