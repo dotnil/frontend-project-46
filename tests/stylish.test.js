@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import displayDiff from '../formatters/stylish.js';
+import displayDiff from '../src/formatters/stylish.js';
 import genDiff from '../src/gen-diff.js';
 import readFile from '../src/parsers.js';
 

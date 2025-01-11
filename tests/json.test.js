@@ -2,7 +2,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/gen-diff.js';
 import readFile from '../src/parsers.js';
-import json from '../formatters/json.js';
+import json from '../src/formatters/json.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
