@@ -2,7 +2,10 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Difference Calculator is a program that determines the difference between two data structures.",
-  "main": "src/gendiff.js",
+  "main": "src/gen-diff.js",
+  "bin": {
+    "gendiff": "bin/gendiff.js"
+   },
   "scripts": {
     "test": "jest"
   },
@@ -18,7 +21,8 @@
   "homepage": "https://github.com/dotnil/frontend-project-46#readme",
   "dependencies": {
     "commander": "^12.1.0",
-    "make": "^0.0.0"
+    "make": "^0.0.0",
+    "js-yaml": "^4.1.0"
   },
   "type": "module",
   "devDependencies": {
@@ -27,7 +31,6 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
     "globals": "^15.9.0",
-    "jest": "^29.7.0",
-    "js-yaml": "^4.1.0"
+    "jest": "^29.7.0"
   }
 }

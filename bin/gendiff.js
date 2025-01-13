@@ -1,7 +1,7 @@
 import { program } from 'commander';
-import readFile from './parsers.js';
-import formatDiff from '../formatters/index.js';
-import genDiff from './gen-diff.js';
+import readFile from '../src/parsers.js';
+import formatDiff from '../src/formatters/index.js';
+import genDiff from '../src/gen-diff.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
