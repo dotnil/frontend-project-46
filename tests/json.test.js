@@ -1,6 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/gen-diff.js';
+import genDiff from '../src/main.js';
 import readFile from '../src/parsers.js';
 import json from '../src/formatters/json.js';
 

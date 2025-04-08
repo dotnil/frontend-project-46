@@ -1,7 +1,9 @@
+#!/usr/bin/env node
+
 import { program } from 'commander';
 import readFile from '../src/parsers.js';
 import formatDiff from '../src/formatters/index.js';
-import genDiff from '../src/gen-diff.js';
+import genDiff from '../src/main.js';
 
 program
   .description('Compares two configuration files and shows a difference.')

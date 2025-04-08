@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Difference Calculator is a program that determines the difference between two data structures.",
-  "main": "src/gen-diff.js",
+  "main": "src/main.js",
   "bin": {
     "gendiff": "bin/gendiff.js"
    },

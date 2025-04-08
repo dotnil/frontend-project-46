@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import plain from '../src/formatters/plain.js';
-import genDiff from '../src/gen-diff.js';
+import genDiff from '../src/main.js';
 import readFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
