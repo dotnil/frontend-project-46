@@ -1,3 +1,5 @@
+import formatDiff from './formatters/index.js';
+
 const getAllKeysSorted = (object1, object2) => {
   const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)]);
   return Array.from(uniqueKeys).sort();
@@ -9,7 +11,7 @@ const isKeyAdded = (oldValue) => oldValue === undefined;
 
 const createDiffEntry = (key, operation, value) => ({ [key]: { operation, value } });
 
-const genDiff = (object1, object2) => {
+const genState = (object1, object2) => {
   const sortedKeys = getAllKeysSorted(object1, object2);
   const diffEntries = [];
 
@@ -18,7 +20,7 @@ const genDiff = (object1, object2) => {
     const newValue = object2[key];
 
     if (typeof oldValue === 'object' && oldValue !== null && typeof newValue === 'object' && newValue !== null) {
-      const diff = genDiff(oldValue, newValue);
+      const diff = genState(oldValue, newValue);
       diffEntries.push(createDiffEntry(key, '=', diff));
     } else if (areValuesEqual(oldValue, newValue)) {
       diffEntries.push(createDiffEntry(key, '=', oldValue));
@@ -33,6 +35,12 @@ const genDiff = (object1, object2) => {
   });
 
   return diffEntries;
+};
+
+const genDiff = (object1, object2, format) => {
+  const diff = genState(object1, object2);
+
+  return formatDiff(diff, format);
 };
 
 export default genDiff;

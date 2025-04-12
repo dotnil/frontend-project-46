@@ -2,7 +2,6 @@
 
 import { program } from 'commander';
 import readFile from '../src/parsers.js';
-import formatDiff from '../src/formatters/index.js';
 import genDiff from '../src/main.js';
 
 program
@@ -16,9 +15,9 @@ program
     const object1 = readFile(filepath1);
     const object2 = readFile(filepath2);
 
-    const diff = genDiff(object1, object2);
+    // const diff = genState(object1, object2);
 
-    console.log(formatDiff(diff, options.format));
+    console.log(genDiff(object1, object2, options.format));
   });
 
 program.parse();
