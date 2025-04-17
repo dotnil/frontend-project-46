@@ -1,4 +1,5 @@
 import formatDiff from './formatters/index.js';
+import readFile from '../src/parsers.js';
 
 const getAllKeysSorted = (object1, object2) => {
   const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)]);
@@ -37,10 +38,14 @@ const genState = (object1, object2) => {
   return diffEntries;
 };
 
-const genDiff = (object1, object2, format) => {
+const genDiff = (filepath1, filepath2, format) => {
+  const object1 = readFile(filepath1);
+  const object2 = readFile(filepath2);
+
   const diff = genState(object1, object2);
 
   return formatDiff(diff, format);
 };
 
 export default genDiff;
+export { genState };

@@ -2,7 +2,7 @@ import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import displayDiff from '../src/formatters/stylish.js';
-import genDiff from '../src/main.js';
+import { genState } from '../src/main.js';
 import readFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -16,7 +16,7 @@ describe('displayDiff', () => {
     const object1 = readFile(filepath1);
     const object2 = readFile(filepath2);
 
-    const diff = genDiff(object1, object2);
+    const diff = genState(object1, object2);
 
     const expected = `{
     common: {

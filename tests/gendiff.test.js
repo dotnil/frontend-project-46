@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/main.js';
+import { genState } from '../src/main.js';
 import readFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -57,6 +57,6 @@ describe('genDiff', () => {
       },
     ];
 
-    expect(genDiff(object1, object2)).toEqual(expected);
+    expect(genState(object1, object2)).toEqual(expected);
   });
 });
