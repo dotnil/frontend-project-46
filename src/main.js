@@ -19,27 +19,29 @@ const genState = (object1, object2) => {
     const oldValue = object1[key];
     const newValue = object2[key];
 
-    let result;
-
     if (typeof oldValue === 'object' && oldValue !== null
       && typeof newValue === 'object' && newValue !== null) {
       const diff = genState(oldValue, newValue);
-      result = [...acc, createDiffEntry(key, '=', diff)];
-    } else if (areValuesEqual(oldValue, newValue)) {
-      result = [...acc, createDiffEntry(key, '=', oldValue)];
-    } else if (isKeyRemoved(newValue)) {
-      result = [...acc, createDiffEntry(key, '-', oldValue)];
-    } else if (isKeyAdded(oldValue)) {
-      result = [...acc, createDiffEntry(key, '+', newValue)];
-    } else {
-      result = [
-        ...acc,
-        createDiffEntry(key, '-', oldValue),
-        createDiffEntry(key, '+', newValue),
-      ];
+      return [...acc, createDiffEntry(key, '=', diff)];
     }
 
-    return result;
+    if (areValuesEqual(oldValue, newValue)) {
+      return [...acc, createDiffEntry(key, '=', oldValue)];
+    }
+
+    if (isKeyRemoved(newValue)) {
+      return [...acc, createDiffEntry(key, '-', oldValue)];
+    }
+
+    if (isKeyAdded(oldValue)) {
+      return [...acc, createDiffEntry(key, '+', newValue)];
+    }
+
+    return [
+      ...acc,
+      createDiffEntry(key, '-', oldValue),
+      createDiffEntry(key, '+', newValue),
+    ];
   }, []);
 };
 
