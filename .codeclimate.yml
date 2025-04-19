@@ -1,0 +1,4 @@
+## https://stackoverflow.com/questions/67794809/how-do-you-get-codeclimate-to-ignore-max-lines-and-max-statements-in-a-file
+## disable code-climate for reducer
+exclude_patterns:
+- "src/gen-diff.js"

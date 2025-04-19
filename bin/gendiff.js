@@ -1,7 +1,7 @@
+#!/usr/bin/env node
+
 import { program } from 'commander';
-import readFile from './parsers.js';
-import formatDiff from '../formatters/index.js';
-import genDiff from './gen-diff.js';
+import genDiff from '../src/gen-diff.js';
 
 program
   .description('Compares two configuration files and shows a difference.')
@@ -11,12 +11,7 @@ program
   .argument('<filepath2>')
   .option('-f, --format [type]', 'output format', 'stylish')
   .action((filepath1, filepath2, options) => {
-    const object1 = readFile(filepath1);
-    const object2 = readFile(filepath2);
-
-    const diff = genDiff(object1, object2);
-
-    console.log(formatDiff(diff, options.format));
+    console.log(genDiff(filepath1, filepath2, options.format));
   });
 
 program.parse();

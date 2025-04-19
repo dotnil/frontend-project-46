@@ -1,27 +1,35 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-import genDiff from '../src/gen-diff.js';
-import readFile from '../src/parsers.js';
-import json from '../formatters/json.js';
+import { readFileSync } from 'fs';
+import yaml from 'js-yaml';
+
+import { genState } from '../src/gen-diff.js';
+import json from '../src/formatters/json.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-describe('json', () => {
-  test('should format diff output in a JSON format', () => {
+const parse = (filepath) => {
+  const content = readFileSync(filepath, 'utf-8');
+  const ext = path.extname(filepath);
+  if (ext === '.json') return JSON.parse(content);
+  if (ext === '.yml' || ext === '.yaml') return yaml.load(content);
+  throw new Error('Unsupported format');
+};
+
+describe('json formatter', () => {
+  test('formats diff as valid JSON string', () => {
     const filepath1 = path.join(__dirname, '../__fixtures__/file1.json');
     const filepath2 = path.join(__dirname, '../__fixtures__/file2.json');
 
-    const object1 = readFile(filepath1);
-    const object2 = readFile(filepath2);
+    const object1 = parse(filepath1);
+    const object2 = parse(filepath2);
 
-    const diff = genDiff(object1, object2);
+    const diff = genState(object1, object2);
+    const output = json(diff);
 
-    const jsonOutput = json(diff);
+    expect(() => JSON.parse(output)).not.toThrow();
 
-    expect(() => JSON.parse(jsonOutput)).not.toThrow();
-
-    const expected = JSON.stringify(diff);
-    expect(jsonOutput).toBe(expected);
+    expect(output).toBe(JSON.stringify(diff));
   });
 });

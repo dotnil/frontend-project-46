@@ -27,23 +27,22 @@ function plain(diff, path = '') {
       const previousOperation = array[index - 1]?.[key]?.operation;
       const followingOperation = array[index + 1]?.[key]?.operation;
 
-      if (operation === '+' && previousOperation === '-') {
-        return generateChangeMessage(fullPath, 'updated', value, array[index - 1][key].value);
-      }
+      const operationsMap = {
+        isUpdated: () => operation === '+' && previousOperation === '-'
+          && generateChangeMessage(fullPath, 'updated', value, array[index - 1][key].value),
+        isAdded: () => operation === '+' && previousOperation !== '-'
+          && generateChangeMessage(fullPath, 'added', value),
+        isRemoved: () => operation === '-' && followingOperation !== '+'
+          && generateChangeMessage(fullPath, 'removed'),
+        isNested: () => operation === '=' && Array.isArray(value)
+          && plain(value, fullPath),
+      };
 
-      if (operation === '+' && previousOperation !== '-') {
-        return generateChangeMessage(fullPath, 'added', value);
-      }
-
-      if (operation === '-' && followingOperation !== '+') {
-        return generateChangeMessage(fullPath, 'removed');
-      }
-
-      if (operation === '=' && Array.isArray(value)) {
-        return plain(value, fullPath);
-      }
-
-      return [];
+      return (
+        Object.values(operationsMap)
+          .map((fn) => fn())
+          .find((result) => result) || []
+      );
     })
     .join('\n');
 }
