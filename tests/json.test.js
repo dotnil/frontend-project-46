@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { readFileSync } from 'fs';
 import yaml from 'js-yaml';
 
-import { genState } from '../src/main.js';
+import { genState } from '../src/gen-diff.js';
 import json from '../src/formatters/json.js';
 
 const __filename = fileURLToPath(import.meta.url);

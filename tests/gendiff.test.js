@@ -1,7 +1,7 @@
 import { describe, test, expect } from '@jest/globals';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { genState } from '../src/main.js';
+import { genState } from '../src/gen-diff.js';
 import readFile from '../src/parsers.js';
 
 const __filename = fileURLToPath(import.meta.url);
