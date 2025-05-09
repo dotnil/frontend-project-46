@@ -7,8 +7,8 @@ const getAllKeysSorted = (object1, object2) => {
 }
 
 const areValuesEqual = (oldValue, newValue) => oldValue === newValue
-const isKeyRemoved = (newValue) => newValue === undefined
-const isKeyAdded = (oldValue) => oldValue === undefined
+const isKeyRemoved = newValue => newValue === undefined
+const isKeyAdded = oldValue => oldValue === undefined
 
 const createDiffEntry = (key, operation, value) => ({ [key]: { operation, value } })
 
