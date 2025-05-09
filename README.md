@@ -15,7 +15,7 @@
   - `plain`
   - `json`
 
-## ⚙️ Установка
+## 🔧 Установка
 Убедитесь, что у вас установлен [Node.js](https://nodejs.org/) и менеджер пакетов `npm`.
 
 - Клонируйте репозиторий и перейдите в папку проекта.
@@ -32,7 +32,7 @@ make install
 npm link
 ```
 
-## 🚀 Использование
+## ▶️ Использование
 [![asciicast](https://asciinema.org/a/JluiP11r8KQQXU2g3iU8TcXtJ.svg)](https://asciinema.org/a/JluiP11r8KQQXU2g3iU8TcXtJ)
 
 
@@ -57,7 +57,7 @@ gendiff -f plain file1.yaml file2.yaml
 gendiff --format json file1.json file2.json
 ```
 
-## 🧪 Примеры вывода
+## 🔍 Примеры вывода
 
 Stylish formatter output (по умолчанию)
 ```bash
