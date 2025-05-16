@@ -35,7 +35,6 @@ npm link
 ## ▶️ Использование
 [![asciicast](https://asciinema.org/a/JluiP11r8KQQXU2g3iU8TcXtJ.svg)](https://asciinema.org/a/JluiP11r8KQQXU2g3iU8TcXtJ)
 
-
 ## 🚀 Запуск
 
 ```bash
