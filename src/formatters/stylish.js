@@ -12,7 +12,7 @@ const display = (value, level = 0) => {
 }
 
 function stylish(diff, level = 0) {
-  return `{\n${diff.map(item => {
+  return `{\n${diff.map((item) => {
     const [key, value] = Object.entries(item)[0]
     const { operation, value: val } = value
     const indentedKey = `${indent(level + 1)}${operation !== '=' ? `${operation} ` : '  '}${key}:`

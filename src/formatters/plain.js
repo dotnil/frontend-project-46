@@ -1,6 +1,6 @@
 const isComplexValue = value => typeof value === 'object' && value !== null
 
-const formatPropertyValue = value => {
+const formatPropertyValue = (value) => {
   if (isComplexValue(value)) return '[complex value]'
   if (typeof value === 'string') return `'${value}'`
   return String(value)
