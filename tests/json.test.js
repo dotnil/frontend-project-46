@@ -9,7 +9,7 @@ import json from '../src/formatters/json.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const parse = filepath => {
+const parse = (filepath) => {
   const content = readFileSync(filepath, 'utf-8')
   const ext = path.extname(filepath)
   if (ext === '.json') return JSON.parse(content)
