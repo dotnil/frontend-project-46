@@ -1,48 +1,47 @@
 import formatDiff from './formatters/index.js'
 import readFile from './parsers.js'
 
-const getAllKeysSorted = (object1, object2) => {
-  const uniqueKeys = new Set([...Object.keys(object1), ...Object.keys(object2)])
-  return [...uniqueKeys].toSorted()
+const getAllKeysSorted = (obj1, obj2) => {
+  const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)])
+  return [...allKeys].toSorted()
 }
 
-const areValuesEqual = (oldValue, newValue) => oldValue === newValue
-const isKeyRemoved = newValue => newValue === undefined
-const isKeyAdded = oldValue => oldValue === undefined
+const createDiffEntry = (key, operation, value, prevValue = undefined) => {
+  const entry = { [key]: { operation, value } }
+  if (prevValue !== undefined) {
+    entry[key].prevValue = prevValue
+  }
+  return entry
+}
 
-const createDiffEntry = (key, operation, value) => ({ [key]: { operation, value } })
+const genState = (obj1, obj2) => {
+  const keys = getAllKeysSorted(obj1, obj2)
 
-const genState = (object1, object2) => {
-  const sortedKeys = getAllKeysSorted(object1, object2)
+  return keys.map((key) => {
+    const oldValue = obj1[key]
+    const newValue = obj2[key]
 
-  return sortedKeys.reduce((acc, key) => {
-    const oldValue = object1[key]
-    const newValue = object2[key]
+    const isOldObj = typeof oldValue === 'object' && oldValue !== null
+    const isNewObj = typeof newValue === 'object' && newValue !== null
 
-    if (typeof oldValue === 'object' && oldValue !== null
-      && typeof newValue === 'object' && newValue !== null) {
-      const diff = genState(oldValue, newValue)
-      return [...acc, createDiffEntry(key, '=', diff)]
+    if (isOldObj && isNewObj) {
+      return createDiffEntry(key, 'nested', genState(oldValue, newValue))
     }
 
-    if (areValuesEqual(oldValue, newValue)) {
-      return [...acc, createDiffEntry(key, '=', oldValue)]
+    if (!(key in obj2)) {
+      return createDiffEntry(key, 'removed', oldValue)
     }
 
-    if (isKeyRemoved(newValue)) {
-      return [...acc, createDiffEntry(key, '-', oldValue)]
+    if (!(key in obj1)) {
+      return createDiffEntry(key, 'added', newValue)
     }
 
-    if (isKeyAdded(oldValue)) {
-      return [...acc, createDiffEntry(key, '+', newValue)]
+    if (oldValue !== newValue) {
+      return createDiffEntry(key, 'updated', newValue, oldValue)
     }
 
-    return [
-      ...acc,
-      createDiffEntry(key, '-', oldValue),
-      createDiffEntry(key, '+', newValue),
-    ]
-  }, [])
+    return createDiffEntry(key, 'unchanged', oldValue)
+  })
 }
 
 const genDiff = (filepath1, filepath2, format) => {

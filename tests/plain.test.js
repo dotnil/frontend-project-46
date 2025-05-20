@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 describe('plain', () => {
-  test('should format diff output in a stylish format', () => {
+  test('should format diff output in plain format', () => {
     const filepath1 = path.join(__dirname, '../__fixtures__/file1.json')
     const filepath2 = path.join(__dirname, '../__fixtures__/file2.json')
 
