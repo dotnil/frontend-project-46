@@ -9,7 +9,7 @@ import expected from '../__fixtures__/expected-stylish.js'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-describe('displayDiff', () => {
+describe('stylish', () => {
   test('should format diff output in a stylish format', () => {
     const filepath1 = path.join(__dirname, '../__fixtures__/file1.json')
     const filepath2 = path.join(__dirname, '../__fixtures__/file2.json')
