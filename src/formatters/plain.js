@@ -8,25 +8,36 @@ const formatPropertyValue = (value) => {
 
 const buildPropertyPath = (path, key) => (path ? `${path}.${key}` : key)
 
+const formatters = {
+  added: (fullPath, { value }) =>
+    `Property '${fullPath}' was added with value: ${formatPropertyValue(value)}`,
+
+  removed: fullPath =>
+    `Property '${fullPath}' was removed`,
+
+  updated: (fullPath, { value, prevValue }) =>
+    `Property '${fullPath}' was updated. From ${formatPropertyValue(prevValue)} to ${formatPropertyValue(value)}`,
+
+  nested: (fullPath, { value }, plainFn) =>
+    plainFn(value, fullPath),
+
+  unchanged: () => [],
+}
+
 function plain(diff, parentPath = '') {
   return diff
     .flatMap((item) => {
-      const [key, { operation, value, prevValue }] = Object.entries(item)[0]
+      const [key, meta] = Object.entries(item)[0]
       const fullPath = buildPropertyPath(parentPath, key)
 
-      switch (operation) {
-        case 'added':
-          return `Property '${fullPath}' was added with value: ${formatPropertyValue(value)}`
-        case 'removed':
-          return `Property '${fullPath}' was removed`
-        case 'updated':
-          return `Property '${fullPath}' was updated. From ${formatPropertyValue(prevValue)} to ${formatPropertyValue(value)}`
-        case 'nested':
-          return plain(value, fullPath)
-        case 'unchanged':
-        default:
-          return []
+      const handler = formatters[meta.operation]
+      if (!handler) return []
+
+      if (meta.operation === 'nested') {
+        return handler(fullPath, meta, plain)
       }
+
+      return handler(fullPath, meta)
     })
     .join('\n')
 }
