@@ -1,5 +1,5 @@
 import formatDiff from './formatters/index.js'
-import readFile from './parsers.js'
+import readFile from './read-file.js'
 
 const getAllKeysSorted = (obj1, obj2) => {
   const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)])

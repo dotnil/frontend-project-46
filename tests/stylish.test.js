@@ -3,7 +3,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import displayDiff from '../src/formatters/stylish.js'
 import { genState } from '../src/gen-diff.js'
-import readFile from '../src/parsers.js'
+import readFile from '../src/read-file.js'
 import expected from '../__fixtures__/expected-stylish.js'
 
 const __filename = fileURLToPath(import.meta.url)
