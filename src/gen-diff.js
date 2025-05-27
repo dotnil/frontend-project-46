@@ -14,6 +14,9 @@ const createDiffEntry = (key, operation, value, prevValue = undefined) => {
   return entry
 }
 
+const isPlainObject = val =>
+  typeof val === 'object' && val !== null && !Array.isArray(val)
+
 const genState = (obj1, obj2) => {
   const keys = getAllKeysSorted(obj1, obj2)
 
@@ -21,8 +24,8 @@ const genState = (obj1, obj2) => {
     const oldValue = obj1[key]
     const newValue = obj2[key]
 
-    const isOldObj = typeof oldValue === 'object' && oldValue !== null
-    const isNewObj = typeof newValue === 'object' && newValue !== null
+    const isOldObj = isPlainObject(oldValue)
+    const isNewObj = isPlainObject(newValue)
 
     if (isOldObj && isNewObj) {
       return createDiffEntry(key, 'nested', genState(oldValue, newValue))
